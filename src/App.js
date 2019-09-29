@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { ContextProvider } from './components/common/context';
+import Navbar from './components/Navbar';
+import ListVideoShared from './components/ListVideoShared';
+
+import { useQuery } from './hooks';
+import queries from './graphql/queries';
+
+toast.configure({
+    autoClose: 2000
+});
+
+const App = () => {
+    const [modal, setModal] = useState(false);
+    const _toggleModal = status => () => setModal(status);
+
+    const userQueried = useQuery(queries.query.getUser);
+
+    if (userQueried.loading) {
+        return <div>Loading...</div>;
+    }
+
+    return (
+        <ContextProvider>
+            <div>
+                <Navbar toggleModal={_toggleModal} userQueried={userQueried} />
+                <ListVideoShared
+                    modal={modal}
+                    toggleModal={_toggleModal}
+                    userQueried={userQueried}
+                />
+            </div>
+        </ContextProvider>
+    );
+};
 
 export default App;
