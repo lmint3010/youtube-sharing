@@ -68,6 +68,7 @@ export default ({ toggleModal, userQueried }) => {
     const validations = {
         email: {
             required: true,
+            // eslint-disable-next-line
             regex: /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/g,
             regexWarning: 'Invalid email address'
         },
