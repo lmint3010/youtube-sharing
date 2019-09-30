@@ -124,11 +124,19 @@ export default ({ userQueried, modal, toggleModal }) => {
                                     <Desc>{video.description}</Desc>
                                     <Author>Shared by {video.email}</Author>
                                 </VideoInfo>
-                                <DeleteBtn
-                                    onClick={_handleConfirm(true, video._id)}
-                                >
-                                    Delete
-                                </DeleteBtn>
+                                {userQueried.data.data.getUser.success &&
+                                    video.email ===
+                                        userQueried.data.data.getUser.user
+                                            .email && (
+                                        <DeleteBtn
+                                            onClick={_handleConfirm(
+                                                true,
+                                                video._id
+                                            )}
+                                        >
+                                            Delete
+                                        </DeleteBtn>
+                                    )}
                             </VideoBox>
                         ))
                     ) : (
